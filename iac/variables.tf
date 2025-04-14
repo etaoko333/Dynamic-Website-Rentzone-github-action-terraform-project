@@ -115,3 +115,8 @@ variable "record_name" {
   description = "sub domain name"
   type        = string
 }
+
+variable "bucketname" {
+    default = "teckproject2025"
+  
+}
