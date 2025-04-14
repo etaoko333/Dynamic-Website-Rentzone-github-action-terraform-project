@@ -1,6 +1,4 @@
-#terraform {
-  #backend "s3" {
-    #bucket = "dynamic-website-project"
-    #key    = "terraform/state"
-    #region = "us-west-1"
-  #}
+#create s3 bucket
+resource "aws_s3_bucket" "my_bucket" {
+  bucket = var.bucketname
+}
