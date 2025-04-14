@@ -29,6 +29,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Set up Node.js (needed for GitHub actions)
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v2
         with:
@@ -132,10 +137,9 @@ jobs:
           aws-resource-tags: >
             [
               {"Key": "Name", "Value": "ec2-github-runner"},
-              {"Key": "GitHubRepository", "Value": "${{ github.repository }}"}
+              {"Key": "GitHubRepository", "Value": "${{ github.repository }}" }
             ]
 
     outputs:
       label: ${{ steps.start-ec2-runner.outputs.label }}
       ec2-instance-id: ${{ steps.start-ec2-runner.outputs.ec2-instance-id }}
-
