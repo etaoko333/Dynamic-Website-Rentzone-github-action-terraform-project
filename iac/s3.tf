@@ -1,19 +1,15 @@
-# Define the S3 bucket for Terraform state storage
-resource "aws_s3_bucket" "devopstechproject" {
-  bucket = "devopstechproject"  # Your specified bucket name
-  acl    = "private"            # Set access control to private
+# create an s3 bucket 
+resource "aws_s3_bucket" "env_file_bucket" {
+  bucket = "${var.project_name}-${var.env_file_bucket_name}"
 
-  tags = {
-    Name        = "devopstechproject"
-    Environment = "Production"
+  lifecycle {
+    create_before_destroy = false
   }
 }
 
-# Optionally, you can create a versioning setting for the bucket (recommended for state files)
-resource "aws_s3_bucket_versioning" "devopstechproject_versioning" {
-  bucket = aws_s3_bucket.devopstechproject.bucket
-
-  versioning_configuration {
-    status = "Enabled"  # Enable versioning for the bucket to store previous versions of the state file
-  }
+# upload the environment file from local computer into the s3 bucket
+resource "aws_s3_object" "upload_env_file" {
+  bucket = aws_s3_bucket.env_file_bucket.id
+  key    = var.env_file_name
+  source = "./${var.env_file_name}"
 }
